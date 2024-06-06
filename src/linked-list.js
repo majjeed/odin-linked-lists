@@ -40,7 +40,7 @@ export class LinkedList {
   }
 
   at(index) {
-    let count = 1;
+    let count = 0;
     let currNode = this.head;
 
     while (count <= index) {
@@ -92,7 +92,7 @@ export class LinkedList {
 
   find(value) {
     let currNode = this.head;
-    let index = 1;
+    let index = 0;
     while (currNode !== null) {
       if (currNode.value === value) {
         return index;
@@ -114,5 +114,61 @@ export class LinkedList {
     }
 
     return returnString + "null";
+  }
+
+  insertAt(value, index) {
+    if (index === 0) {
+      this.prepend(value);
+    } else if (index === this.size - 1) {
+      this.append(value);
+    } else {
+      let currIndex = 1;
+      let prevNode = this.head;
+      let currNode = prevNode.nextNode;
+      const newNode = new Node(value);
+
+      while (currNode !== null) {
+        if (currIndex === index) {
+          newNode.nextNode = currNode;
+          prevNode.nextNode = newNode;
+          this.length++;
+          return;
+        } else {
+          currIndex++;
+          prevNode = currNode;
+          currNode = currNode.nextNode;
+        }
+      }
+    }
+  }
+
+  removeAt(index) {
+    let currIndex = 0;
+    let currNode = this.head;
+    if (index === this.size() - 1) return this.pop();
+    if (index === 0) {
+      if (this.head === this.tail) {
+        this.head = this.head.nextNode;
+        this.tail = null;
+      } else {
+        this.head = this.head.nextNode;
+      }
+      this.length--;
+      return currNode;
+    }
+
+    let prevNode = currNode;
+    currNode = currNode.nextNode;
+    currIndex++;
+    while (currNode !== null) {
+      if (currIndex === index) {
+        prevNode.nextNode = prevNode.nextNode.nextNode;
+        this.length--;
+        return currNode;
+      } else {
+        currNode = currNode.nextNode;
+      }
+      currIndex++;
+    }
   }
 }
